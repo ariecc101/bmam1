@@ -1,17 +1,30 @@
-version: "3.7"
+#determine docker compose version
+version: '3.7'
+
+#determine service
 services:
+  #service with name item-app 
   item-app:
-    image:
+    #get image from github packages user ariecc101 image item-app tag v1
+    image: ghcr.io/ariecc101/item-app:v1
+    #always restart the container if it stops
     restart: always
-    port:
+    #mapping port 80 host to 8080 container
+    ports:
       - 80:8080
+    #set services in dependency order, will be started before item-app
     depends_on:
       - item-db
+  #service with name item-db
   item-db:
+    #use image mongo from docker hub with tag 3
     image: mongo:3
+    #always restart the container if it stops
     restart: always
+    #use volume app-db mount to /data/db container
     volumes:
       - app-db:/data/db
 
+#create volume name app-db
 volumes:
   app-db:
